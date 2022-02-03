@@ -43,7 +43,7 @@ exports.userLogin = async (req, res, next) => {
         const isValidPassword = await verifyPassword(data.password, user.password);
         if (!user || !isValidPassword) return res.status(400).json({ message: "Invalid Email Or Password" });
         const token = signToken({ id: user._id, username: user.username });
-        return res.status(200).json({ username: user.username, token });
+        return res.status(200).json({ username: user.username, firstName: user.firstName, lastName: user.lastName, token });
     } catch (error) {
         next(error);
     }
