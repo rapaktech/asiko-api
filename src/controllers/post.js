@@ -21,27 +21,25 @@ exports.createPost = async (req, res, next) => {
         const form = formidable();
 
         form.parse(req, (err, fields, files) => {
-            if (err) {
-                next(err);
-            }
-
+            if (err) throw err;
             cloudinary.v2.uploader.upload(files.file.filepath, {
                 public_id: `${Date.now()}`,
                 resource_type: 'auto'
             }, (err, result) => {
-                if (err) next(err);
-                const newPost = new Post({
+                if (err) throw err;
+                Post.create({
                     userId: req.user.id,
                     caption: fields.caption,
                     imageUrl: result.url
-                }).save();
-            
-                User.findById(req.user.id, (err, foundUser) => {
+                }, (err, newPost) => {
                     if (err) throw err;
-                    foundUser.posts.push(newPost._id);
-                    foundUser.save((err, saved) => {
+                    User.findById(req.user.id, (err, foundUser) => {
                         if (err) throw err;
-                        else return res.status(200).json({ message: 'Post Uploaded Successfully!' });
+                        foundUser.posts.push(newPost._id);
+                        foundUser.save((err, saved) => {
+                            if (err) throw err;
+                            else return res.status(200).json({ message: 'Post Uploaded Successfully!' });
+                        });
                     });
                 });
             });
