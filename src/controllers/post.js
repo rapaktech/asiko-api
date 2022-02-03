@@ -6,7 +6,7 @@ const formidable = require('formidable');
 
 exports.getPosts = async (req, res, next) => {
     try {
-        const posts = await Post.find().populate('userId');
+        const posts = await Post.find().populate('posts');
         if (!posts) {
             return res.status(400).json({ message: 'No Posts' });
         }
