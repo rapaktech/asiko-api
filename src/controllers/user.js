@@ -38,15 +38,15 @@ exports.userLogin = async (req, res, next) => {
     }
 
     try {
-        const user = await User.findOne({ username: data.username }).select('password');
+        const user = await User.findOne({ username: data.username }).select('-password');
         if (!user) return res.status(400).json({ message: "Invalid Email Or Password" });
         const isValidPassword = await verifyPassword(data.password, user.password);
         if (!user || !isValidPassword) return res.status(400).json({ message: "Invalid Email Or Password" });
         const token = signToken({ id: user._id, username: user.username });
-        return res.status(200).json({ name: user.firstName, token });
+        return res.status(200).json({ username: user.username, token });
     } catch (error) {
         next(error);
-    } 
+    }
 }
 
 
