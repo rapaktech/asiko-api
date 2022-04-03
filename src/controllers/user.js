@@ -11,7 +11,7 @@ exports.userCreate = async (req, res, next) => {
     }
 
     try {
-        let user = await User.findOne({ username: data.username });
+        const user = await User.findOne({ username: data.username });
         if (user) return res.status(400).json({ message: "Username Has Been Used. Please Try Another." });
 
         const hash = await hashPassword(data.password);
@@ -23,7 +23,7 @@ exports.userCreate = async (req, res, next) => {
             lastName: data.lastName
         }).save();
 
-        return res.status(200).json({ message: "User Created Successfully!" });
+        return res.status(200).json({ message: "User Created Successfully!" , newUser });
     } catch(error) {
         next(error);
     }

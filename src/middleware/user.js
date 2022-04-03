@@ -5,10 +5,10 @@ module.exports = () => {
     return async (req, res, next) => {
         try {
             const token = req.headers.authorization;
-            if (!token) return res.status(400).json({ message: "Token Missing. Please Sign In Again To Access This Page. "});
+            if (!token) return res.status(400).json({ message: "Token Missing. Please Sign In Again To Access This Page" });
 
             const decodedToken = decodeToken(token);
-            if (!decodedToken) return res.status(400).json({ message: "Session Expired. Please Sign In Again To Access This Page. "});
+            if (!decodedToken) return res.status(400).json({ message: "Session Expired. Please Sign In Again To Access This Page" });
 
             req.user = decodedToken;
             next();

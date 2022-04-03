@@ -10,6 +10,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
@@ -19,9 +20,9 @@ app.use(xss());
 
 // cloudinary config
 cloudinary.config({ 
-    cloud_name: 'jim-marketplace', 
-    api_key: '276669241878884', 
-    api_secret: 'CeiR-Bmx9mYxAIfxuy67mM2wtBg' 
+    cloud_name: CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
 });
 
 
@@ -35,7 +36,7 @@ app.use(postRoutes);
 
 // handle invalid or dead links
 app.use('**', (req, res) => {
-    return res.status(404).json({ message: 'Page Not Found!'});
+    return res.status(404).json({ message: 'Page Not Found!' });
 });
 
 
