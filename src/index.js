@@ -20,9 +20,9 @@ app.use(xss());
 
 // cloudinary config
 cloudinary.config({ 
-    cloud_name: CLOUD_NAME,
-    api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET
+    cloud_name: String(process.env.CLOUD_NAME),
+    api_key: String(process.env.API_KEY),
+    api_secret: String(process.env.API_SECRET)
 });
 
 
